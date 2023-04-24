@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: web
-          image: registry-vpc.cn-hangzhou.aliyuncs.com/bestpractise/consumer
+          image: [registry address]
           ports:
             - containerPort: 2222
           env:

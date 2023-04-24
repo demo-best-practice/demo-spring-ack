@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: web
-          image: registry-vpc.cn-hangzhou.aliyuncs.com/bestpractise/gateway
+          image: [registry address]
           ports:
             - containerPort: 8080
           env:

@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: eureka-0
+  labels:
+    app: eureka-0
+spec:
+  type: ClusterIP
+  ports:
+    - name: server
+      port: 8000
+      targetPort: 8000
+  selector:
+    app: eureka-0
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eureka-0
+  labels:
+    app: eureka-0
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eureka-0
+  template:
+    metadata:
+      labels:
+        app: eureka-0
+    spec:
+      containers:
+        - name: eureka-0
+          image: registry-vpc.cn-hangzhou.aliyuncs.com/bestpractise/eureka
+          ports:
+            - name: server
+              containerPort: 8000
+          env:
+            - name: APP_NAME
+              value: "eureka"
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: APP_OPTS
+              value: "
+                     --spring.application.name=${APP_NAME}
+                     --eureka.instance.hostname=${POD_NAME}.${APP_NAME}
+		     --server.port=8000
+                     --eureka.client.register-with-eureka=false
+                     --eureka.client.fetch-registry=false
+                     --eureka.instance.preferIpAddress=false
+                     --eureka.client.serviceUrl.defaultZone=http://eureka-1:8000/eureka/,http://eureka-2:8000/eureka/,http://192.168.0.156:8000/eureka/,http://192.168.0.157:8000/eureka/
+		     --eureka.server.enable-self-preservation=false"

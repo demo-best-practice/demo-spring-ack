@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
         - name: eureka-1
-          image: registry-vpc.cn-hangzhou.aliyuncs.com/bestpractise/eureka
+          image: [registry address]
           ports:
             - name: server
               containerPort: 8000
